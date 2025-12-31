@@ -2,8 +2,8 @@
 #
 # Removes the field formatting of all selected notes.
 #
-# Author: Felix Esch
-# Updated for Anki 25.02.5 with UI
+# Original author: Felix Esch
+# Updated for Anki 25.02.5 with UI by FlaccidSnake using Claude AI
 # VCS+issues: https://github.com/Araeos/ankiplugins
 # Licence: GNU General Public Licence (GNU GPL), version 3
 
@@ -27,6 +27,14 @@ from anki.notes import NoteId
 from aqt import mw
 from aqt.utils import tooltip, askUser
 from aqt.browser.browser import Browser
+
+
+def gc(key, default=None):
+    """Get config value"""
+    conf = mw.addonManager.getConfig(__name__)
+    if conf is None:
+        return default
+    return conf.get(key, default)
 
 
 def stripFormatting(txt, preserve_br=False):
@@ -228,6 +236,9 @@ addHook("browser.setupMenus", setupMenu)
 
 def add_to_browser_context(browser, menu):
     """Add clear formatting option to browser right-click menu"""
+    if not gc("show_in_browser_context_menu", True):
+        return
+    
     nids = browser.selectedNotes()
     if not nids:
         return
@@ -247,6 +258,9 @@ addHook("browser.onContextMenu", add_to_browser_context)
 
 def add_to_editor_context(view, menu):
     """Add clear formatting option to editor right-click menu"""
+    if not gc("show_in_editor_context_menu", True):
+        return
+    
     e = view.editor
     if not e or not e.note:
         return

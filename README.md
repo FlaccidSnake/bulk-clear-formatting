@@ -1,4 +1,4 @@
-# Bulk-Clear-Formatting-Anki-Addon
+# Bulk Clear Formatting Anki Addon
 Addon to remove formatting from Anki cards in bulk. 
 Code borrowed from https://github.com/Araeos/ankiplugins and updated using Claude AI.
 
